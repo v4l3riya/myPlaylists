@@ -61,7 +61,7 @@ const UIStuff = (function () {
     });
 
     document.getElementsByTagName("body")[0].style.background =
-      "url(/images/background-repeat.jpg)";
+      "url(images/background-repeat.jpg)";
 
     //media query for javascript w listener and shit to listen for resize events
     const mediaQ = window.matchMedia("(max-width: 980px)");
