@@ -136,7 +136,6 @@ const APIStuff = (function () {
         domElements.currGen = domElements.genres[4];
         break;
     }
-    console.log(domElements.nav.curr);
   }
 
   //invoke as a function to get the stuff - (but why???)
@@ -208,14 +207,17 @@ const UIInteraction = (function () {
     const limit = 12;
     const token = await tokenFN();
     const playlists = await APIStuff.getPlaylists(token);
-    console.log(APIStuff.showMusic(playlists, limit));
     music.list = APIStuff.showMusic(playlists, limit);
     UIUpdate(limit);
   });
 
   function UIUpdate(x) {
-    for (let i = 0; i < x; i++) {
-      domElements.currGen.innerHTML += music.list.album[i] + "<br>";
+    //won't repeat if the length is greater than the original
+    //number is kinda arbitrary... as long as it's under 1000 works lol
+    if (domElements.currGen.innerHTML.length < 200) {
+      for (let i = 0; i < x; i++) {
+        domElements.currGen.innerHTML += `<tr class="songs"><td><img src="${music.list.image[i]}"></td><td> ${music.list.album[i]}</td> <td> ${music.list.artist[i]} </td> <td> ${music.list.name[i]}</td></tr>`;
+      }
     }
   }
 

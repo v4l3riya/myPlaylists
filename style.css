@@ -121,13 +121,37 @@ nav ul li:hover {
 }
 .playlist-content {
   display: none;
-  width: 80%;
-  height: 55%;
+  width: 90%;
+  height: 60%;
   margin-top: 30px;
   padding: 10px 25px 10px 10px;
   margin-left: auto;
   margin-right: auto;
   overflow-y: auto;
+  overflow-x: hidden;
+  text-align: center;
+}
+table {
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+.songs {
+  padding: 2em;
+  background-color: rgba(255, 255, 255, 0.336);
+  box-shadow: 7px 7px 10px 0px rgba(0, 0, 0, 0.267);
+}
+.theader {
+  color: #1b3152ce;
+  text-shadow: 2px 2px 0px #ffbc37, 6px 6px 0px #889c9752;
+}
+table td {
+  padding: 5px;
+  max-width: 200px;
+}
+table th {
+  font-size: 1.1em;
 }
 .about {
   position: fixed;
@@ -171,6 +195,13 @@ h3 {
   font-size: 1.2em;
   border-bottom: 2px solid black;
 }
+.inner img {
+  max-width: 150px;
+  min-width: 60px;
+  width: 100%;
+  border-radius: 10px;
+}
+
 @media only screen and (min-width: 981px) and (max-width: 1250px) {
   nav {
     margin-right: 590px;
@@ -181,7 +212,7 @@ h3 {
 }
 @media only screen and (min-width: 701px) and (max-width: 980px) {
   h1 {
-    margin: 50px 20px 20px 20px;
+    margin: 20px;
     text-align: center;
     font-size: 6em;
     line-height: 90%;
@@ -204,7 +235,7 @@ h3 {
     background-position: 60% 100%;
   }
   h1 {
-    margin: 90px 20px 20px 20px;
+    margin: 20px;
     text-align: center;
     font-size: 5em;
     line-height: 90%;
