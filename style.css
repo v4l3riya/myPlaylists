@@ -51,7 +51,6 @@ body {
   box-sizing: border-box;
   font-family: Montserrat;
 }
-/* do you need this container??? */
 .container {
   height: 100%;
   width: 100%;

@@ -1,5 +1,3 @@
-//domelements are in one object
-//should you make them into a function?? globals are bad right?
 const domElements = {
   h1: document.querySelector(".main-h1"),
   nav: document.querySelector(".main-nav"),
@@ -63,7 +61,7 @@ const UIStuff = (function () {
     document.getElementsByTagName("body")[0].style.background =
       "url(images/background-repeat.jpg)";
 
-    //media query for javascript w listener and shit to listen for resize events
+    //media query for javascript for resize events
     const mediaQ = window.matchMedia("(max-width: 980px)");
     mediaQ.addListener(resizeText);
     resizeText(mediaQ);
@@ -72,7 +70,7 @@ const UIStuff = (function () {
     resizeText2(mediaQ2);
 
     showPlaylist();
-  } //End of transition function
+  }
 
   //resizes nav text depending on media query
   function resizeText(mediaQ) {
@@ -102,16 +100,14 @@ const UIStuff = (function () {
   }
 })();
 
-//!!TAKE DOM ELEMENTS OUT INTO THEIR OWN FUNCTION!!
 const APIStuff = (function () {
-  //!!!!HIDE THIS LATER??!!!!///
+  //!!!!WILL BE HIDDEN!!!///
   const clientId = "0cc846d4a7fa4e96b68e7cdd2f1c6944";
   const clientSecret = "38f994c013754ebab11cebd191d8e277";
 
   domElements.nav.addEventListener("click", switchy);
 
   function switchy(e) {
-    //will use this stored property to be referred to in the Spotify portion
     domElements.nav.curr = e.target.innerText;
     //ties in the curr target with the playlist IDs below:
     switch (domElements.nav.curr) {
@@ -138,25 +134,22 @@ const APIStuff = (function () {
     }
   }
 
-  //invoke as a function to get the stuff - (but why???)
   const _getToken = async () => {
     const result = await fetch("https://accounts.spotify.com/api/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        //btoa() encodes a string in base-64 and then use atob() to decode! DON'T FORGET THIS STUPID ASS SPACE AFTER BASIC GOOD LORD WHY DID THAT TAKE HOURS AGH
         Authorization: "Basic " + btoa(clientId + ":" + clientSecret),
       },
       body: "grant_type=client_credentials",
     });
-    //gets reponse from fetch and then uses the JSON method to turn it into JSON, then passes json to the next line for the next function
+
     const data = await result.json();
 
     return data.access_token;
   };
 
   const _getPlaylists = async (token) => {
-    //need to specify a limit in here as well or it won't work...
     const limit = 12;
     const result = await fetch(
       `https://api.spotify.com/v1/playlists/${domElements.nav.curr}/tracks?limit=${limit}`,
@@ -171,8 +164,6 @@ const APIStuff = (function () {
     return data;
   };
 
-  ///!!! ISSUE WITH OBJECT/ARRAY SYNTAX HERE THIS IS WHY IT IS NOT WORKING!!! FIX THE MUSIC/ALBUM PART OK
-  //creating array to place in the Spotify API data
   function showMusic(data, limit) {
     const music = { album: [], artist: [], name: [], image: [] };
     for (let i = 0; i < limit; i++) {
@@ -185,7 +176,7 @@ const APIStuff = (function () {
   }
 
   return {
-    //public methods have access to the private methods
+    //public methods have access to the private method, for practice
     getToken() {
       return _getToken();
     },
@@ -198,8 +189,7 @@ const APIStuff = (function () {
   };
 })();
 
-//make this neater mmmK
-//returns the actua generated list and throws shit together
+//combines the spotify and reactive functions above into the UI
 const UIInteraction = (function () {
   const music = {};
 
@@ -213,7 +203,7 @@ const UIInteraction = (function () {
 
   function UIUpdate(x) {
     //won't repeat if the length is greater than the original
-    //number is kinda arbitrary... as long as it's under 1000 works lol
+    //number is fairly arbitrary
     if (domElements.currGen.innerHTML.length < 200) {
       for (let i = 0; i < x; i++) {
         domElements.currGen.innerHTML += `<tr class="songs"><td><img src="${music.list.image[i]}"></td><td> ${music.list.album[i]}</td> <td> ${music.list.artist[i]} </td> <td> ${music.list.name[i]}</td></tr>`;
@@ -224,9 +214,6 @@ const UIInteraction = (function () {
   function tokenFN() {
     return APIStuff.getToken();
   }
-  //remember, when returning this variable it becomes the "value" of UIInteraction NOT a property of it!!!
+
   return music;
 })();
-
-//takes the generated shit and updates the style nicer
-//maybe merge with previous UI function up top?
